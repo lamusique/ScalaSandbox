@@ -5,6 +5,8 @@
  * @author La Musique
  *
  */
+package com.nekopiano.scala.sandbox
+
 import scala.annotation.tailrec
 
 object MapGenerationTest {
