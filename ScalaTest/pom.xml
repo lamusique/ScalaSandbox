@@ -96,6 +96,12 @@
 			<artifactId>nscala-time_2.10</artifactId>
 			<version>0.4.2</version>
 		</dependency>
+        <!-- coloring console -->
+        <dependency>
+            <groupId>pl.project13.scala</groupId>
+            <artifactId>rainbow_2.10</artifactId> <!-- your scala version here -->
+            <version>0.1</version>
+        </dependency>
 
 	</dependencies>
 
