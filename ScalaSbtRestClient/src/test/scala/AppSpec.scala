@@ -1,5 +1,3 @@
-package $organization$.$name;format="lower,word"$
-
 import org.specs2.mutable._
 
 class AppSpec extends Specification {
