@@ -3,13 +3,15 @@
  */
 package com.nekopiano.scala.rest.client
 
-import java.io.File
 import java.io.StringReader
 import java.net.URL
+import java.nio.charset.StandardCharsets
+import java.nio.file.Files
+import java.nio.file.Paths
+import java.nio.file.StandardOpenOption
 
 import scala.io.Codec
 import scala.io.Source
-import scala.sys.process.stringToProcess
 import scala.xml.Node
 import scala.xml.PrettyProduct
 import scala.xml.XML
@@ -35,7 +37,11 @@ object RestClient {
 
   def main(args: Array[String]): Unit = {
 
-    getByDispatch(URI_EP905F)
+    val s = Source.fromFile("requests/REST-requests.txt")
+    for (line <- s.getLines) {
+      var split = line.split(',')
+      getByDispatch(split(0), split(1))
+    }
 
   }
 
@@ -65,10 +71,11 @@ object RestClient {
     Source.fromBytes(buf)
   }
 
-  def getByDispatch(uri: String) = {
+  def getByDispatch(name: String, uri: String) = {
 
     val h = new Http
-    val req = url(uri).as("admin", "admin") <:< Map("Authorization" -> "Basic credential=", "Accept-Languate" -> "ja") >\ "UTF-8"
+//    val req = url(uri) <:< Map("Authorization" -> "Basic credential=", "Accept-Languate" -> "ja") >\ "UTF-8"
+    val req = url(uri) <:< Map("Authorization" -> "Basic credential=") >\ "UTF-8"
 
     val responsePayload = h(req as_str)
     println("responsePayload=" + responsePayload)
@@ -81,8 +88,8 @@ object RestClient {
     val formattedXml = pp.format(xml)
     println("formattedXml=" + formattedXml)
 
-    val formattedPayloadFile = new File("responses/formatted_payloads/formatted-AbcProducts.txt")
-    "echo %s".format(formattedXml) #>> formattedPayloadFile!
+    Files.write(Paths.get("responses/payloads/" + name + ".xml"), xml.mkString.getBytes(StandardCharsets.UTF_8), StandardOpenOption.CREATE, StandardOpenOption.TRUNCATE_EXISTING, StandardOpenOption.WRITE)
+    Files.write(Paths.get("responses/payloads/formatted-" + name + ".xml"), formattedXml.getBytes(StandardCharsets.UTF_8), StandardOpenOption.CREATE, StandardOpenOption.TRUNCATE_EXISTING, StandardOpenOption.WRITE)
 
   }
 
