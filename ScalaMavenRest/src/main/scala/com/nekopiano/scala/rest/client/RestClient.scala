@@ -35,42 +35,19 @@ import org.jboss.netty.handler.codec.base64.Base64Encoder
  */
 object RestClient {
 
+  val BASE_PASS = "credential="
   val URI_EP905F = "http://localhost:9001/sample/rest/catalogs/Default/catalogversions/Staged/products/EP-905F"
 
   def main(args: Array[String]): Unit = {
-
-    //  val url = new URL("http://127.0.0.1:9001/sample/rest/abcitems");
-    //val connection =  url.openConnection.asInstanceOf[HttpURLConnection];
-    //connection.setRequestProperty("Authorization:",
-    //"Basic "+codec.encodeBase64String(("username:password").getBytes());
-
-    val auth = new MyAuthenticator("admin", "admin")
-    java.net.Authenticator.setDefault(auth)
-    //    val url = new URL("http://localhost:9001/sample/rest/abcitems")
-    val url = new URL("http", "localhost", 9001, "/sample/rest/abcitems")
-    val connection = url.openConnection().asInstanceOf[HttpURLConnection];
-           connection.setRequestMethod("GET");
-//            connection.setDoOutput(true);
-//           val encoding = Base64Encoder.encode("test1:test1")
-            connection.setRequestProperty  ("Authorization", "Basic " + "credential=");
-            val content = connection.getInputStream().asInstanceOf[InputStream];
-            val in   = 
-                new BufferedReader (new InputStreamReader (content));
-            var line = ""
-            while ((line = in.readLine()) != null) {
-                System.out.println(line);
-            }
-//    val extractSource = Source.fromURL(url);
-//    println(extractSource.mkString)
 
     import java.net.{ Authenticator, PasswordAuthentication }
     Authenticator.setDefault(
       new Authenticator {
         override def getPasswordAuthentication =
-          new PasswordAuthentication("admin", "admin".toCharArray)
+          new PasswordAuthentication("admin", BASE_PASS.toCharArray)
       })
 
-    // getByDispatch()
+    getByDispatch()
 
     // Http Request
     //val http = new Http
@@ -83,7 +60,8 @@ object RestClient {
     //    val source = Source.fromURL("http://localhost:9001/hac")
     //    val source = Source.fromURL("http://localhost:9001/sample/rest/abcitems")
     //    val source = Source.fromURL("http://admin:admin@localhost:9001/sample/rest/abcitems")
-    val source = Source.fromURL("http://127.0.0.1:9001/sample/rest/abcitems")
+    //    val source = Source.fromURL("http://127.0.0.1:9001/sample/rest/abcitems")
+    val source = Source.fromURL(new URL("http", "localhost", 9001, "/sample/rest/abcitems/"))
 
     println(source.mkString)
     // 文字列からXMLオブジェクトを作る
@@ -128,7 +106,9 @@ object RestClient {
     //    val req = url("http://localhost:9001/sample/rest/catalogs/Default/catalogversions/Staged/products/EP-905F").as_!("admin", "admin") <:< Map("Accept-Language" -> "ja") >\ "UTF-8"
     //    val req = url("http://localhost:9001/sample/rest/catalogs/Default/catalogversions/Staged/products/EP-905F").as("admin", "admin") <:< Map("Accept-Language" -> "ja") >\ "UTF-8"
     //    val req = url("http://localhost:9001/sample/rest/abcitems").as("admin", "admin") <:< Map("Accept-Language" -> "ja") >\ "UTF-8"
-    val req = url("http://localhost:9001/sample/rest/catalogs/Default/catalogversions/Staged/products/EP-905F").as("admin", "admin") >\ "UTF-8"
+//    val req = url("http://localhost:9001/sample/rest/catalogs/Default/catalogversions/Staged/products/EP-905F").as("admin", "admin") >\ "UTF-8"
+    val req = url("http://localhost:9001/sample/rest/abcitems").as("admin", "admin") <:< Map("Authorization" -> "Basic credential=") >\ "UTF-8"
+   
     val responsePayload = h(req as_str)
 
     val rootNode = toNode(responsePayload)
@@ -137,11 +117,5 @@ object RestClient {
     println("formated=" + pp.format(rootNode))
   }
 
-  class MyAuthenticator(user: String, pass: String) extends java.net.Authenticator {
-    override def getPasswordAuthentication(): PasswordAuthentication =
-      {
-        return new PasswordAuthentication(this.user, this.pass.toCharArray);
-      }
-  }
 }
 
