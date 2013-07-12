@@ -3,31 +3,26 @@
  */
 package com.nekopiano.scala.rest.client
 
-import dispatch._
-import Http._
-import dispatch.classic.url
-import dispatch.classic.Http
+import java.io.File
 import java.io.StringReader
+import java.net.URL
+
+import scala.io.Codec
+import scala.io.Source
+import scala.sys.process.stringToProcess
+import scala.xml.Node
+import scala.xml.PrettyProduct
+import scala.xml.XML
+import scala.xml.parsing.NoBindingFactoryAdapter
+
+import org.xml.sax.InputSource
+
+import dispatch.classic.Http
+import dispatch.classic.Request.toHandlerVerbs
+import dispatch.classic.Request.toRequestVerbs
+import dispatch.classic.url
 import nu.validator.htmlparser.common.XmlViolationPolicy
 import nu.validator.htmlparser.sax.HtmlParser
-import org.xml.sax.InputSource
-import scalax.io.JavaConverters._
-import scalax.io.Resource
-import scala.xml.Node
-import scala.xml.parsing.NoBindingFactoryAdapter
-import scala.xml.PrettyProduct
-import java.net.URL
-import scala.io.Source
-import scala.io.Codec
-import java.net.URI
-import scala.xml.XML
-import java.net.HttpURLConnection
-import java.net.PasswordAuthentication
-import java.net.Authenticator
-import java.io.BufferedReader
-import java.io.InputStream
-import java.io.InputStreamReader
-import org.jboss.netty.handler.codec.base64.Base64Encoder
 
 /**
  * @author La Musique
@@ -40,36 +35,7 @@ object RestClient {
 
   def main(args: Array[String]): Unit = {
 
-    import java.net.{ Authenticator, PasswordAuthentication }
-    Authenticator.setDefault(
-      new Authenticator {
-        override def getPasswordAuthentication =
-          new PasswordAuthentication("admin", BASE_PASS.toCharArray)
-      })
-
-    getByDispatch()
-
-    // Http Request
-    //val http = new Http
-    //val json = http(:/("api.twitter.com") / "1/users/show.json" <<? Map("screen_name" -> "aloiscochard") >~ { _.getLines.mkString })
-
-    //val src = Source.fromURL(new URL(URI_EP905F))
-
-    // URLから文字列で読み込む
-    //    val source = Source.fromURL("http://localhost:9001/sample/rest/catalogs/Default/catalogversions/Staged/abcitems")
-    //    val source = Source.fromURL("http://localhost:9001/hac")
-    //    val source = Source.fromURL("http://localhost:9001/sample/rest/abcitems")
-    //    val source = Source.fromURL("http://admin:admin@localhost:9001/sample/rest/abcitems")
-    //    val source = Source.fromURL("http://127.0.0.1:9001/sample/rest/abcitems")
-    val source = Source.fromURL(new URL("http", "localhost", 9001, "/sample/rest/abcitems/"))
-
-    println(source.mkString)
-    // 文字列からXMLオブジェクトを作る
-    val xml = XML.loadString(source.getLines.mkString)
-
-    //  val src = getSource()
-    //    println(src)
-    //    val rootNode = toNode(src.mkString)
+    getByDispatch(URI_EP905F)
 
   }
 
@@ -99,22 +65,25 @@ object RestClient {
     Source.fromBytes(buf)
   }
 
-  def getByDispatch() = {
+  def getByDispatch(uri: String) = {
 
     val h = new Http
-    //    val req = url("http://localhost:9001/sample/rest/catalogs/Default/catalogversions/Staged/products/EP-905F") <:< Map("Accept-Language" -> "ja") >\ "UTF-8"
-    //    val req = url("http://localhost:9001/sample/rest/catalogs/Default/catalogversions/Staged/products/EP-905F").as_!("admin", "admin") <:< Map("Accept-Language" -> "ja") >\ "UTF-8"
-    //    val req = url("http://localhost:9001/sample/rest/catalogs/Default/catalogversions/Staged/products/EP-905F").as("admin", "admin") <:< Map("Accept-Language" -> "ja") >\ "UTF-8"
-    //    val req = url("http://localhost:9001/sample/rest/abcitems").as("admin", "admin") <:< Map("Accept-Language" -> "ja") >\ "UTF-8"
-//    val req = url("http://localhost:9001/sample/rest/catalogs/Default/catalogversions/Staged/products/EP-905F").as("admin", "admin") >\ "UTF-8"
-    val req = url("http://localhost:9001/sample/rest/abcitems").as("admin", "admin") <:< Map("Authorization" -> "Basic credential=") >\ "UTF-8"
-   
-    val responsePayload = h(req as_str)
+    val req = url(uri).as("admin", "admin") <:< Map("Authorization" -> "Basic credential=", "Accept-Languate" -> "ja") >\ "UTF-8"
 
-    val rootNode = toNode(responsePayload)
-    val pp = new PrettyProduct(80, 2)
-    println("rootNode=" + rootNode)
-    println("formated=" + pp.format(rootNode))
+    val responsePayload = h(req as_str)
+    println("responsePayload=" + responsePayload)
+    //val rootNode = toNode(responsePayload)
+    //    println("rootNode=" + rootNode)
+
+    val xml = XML.loadString(responsePayload)
+    println("xml=" + xml)
+    val pp = new PrettyProduct(500, 2)
+    val formattedXml = pp.format(xml)
+    println("formattedXml=" + formattedXml)
+
+    val formattedPayloadFile = new File("responses/formatted_payloads/formatted-AbcProducts.txt")
+    "echo %s".format(formattedXml) #>> formattedPayloadFile!
+
   }
 
 }
