@@ -42,15 +42,10 @@ object XmlSAXReader {
 
     //@tailrec
     def processNode(node: Node) {
-      //      if (node.isInstanceOf[Text]) {
-      //      println(node.doCollectNamespaces)
-      //      println(node.namespace)
-      if (node.child.isEmpty) {
-        println(node.label)
+      if (node.isInstanceOf[Text]) {
       } else {
-        print(node.label + " // ")
+        println(node.label)
       }
-      //     }
       node.child.foreach { e => { processNode(e) } }
     }
 
