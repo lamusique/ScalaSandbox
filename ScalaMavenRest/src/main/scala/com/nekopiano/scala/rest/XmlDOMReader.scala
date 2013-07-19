@@ -26,20 +26,19 @@ import scala.xml.XML
  * @author La Musique
  *
  */
-object XmlReader {
+object XmlDOMReader {
 
   def main(args: Array[String]): Unit = {
 
     //    val xmlSource = Source.fromFile("responses/payloads/2.AbcProducts-EP-805.xml")
     //    val rootNode = toNode(xmlSource.mkString)
-    //    val rootNode = XML.loadFile("responses/payloads/2.AbcProducts-EP-805.xml")
-    val rootNode = XML.loadFile("responses/payloads/1.ApprovedList.xml")
-
-    //rootNode.child.map(node => println(node))
+    //    val rootNode = XML.loadFile("responses/payloads/1.ApprovedList.xml")
+    val rootNode = XML.loadFile("responses/payloads/2.AbcProducts-EP-805.xml")
+    //    val rootNode = XML.loadFile("responses/payloads/2.AbcProducts-EP-905F.xml")
 
     println("-" * 64)
 
-    //    val doc = ConstructingParser.fromFile(new File("responses/payloads/2.AbcProducts-EP-805.xml"), true).document
+    // DOM Parsing
 
     val dbFactory = DocumentBuilderFactory.newInstance;
     val dBuilder = dbFactory.newDocumentBuilder;
@@ -47,11 +46,6 @@ object XmlReader {
 
     val domNode = nodeExtras(rootNode)
     val jdkNode = domNode.toJdkNode(domDoc)
-    println("jdkNode=" + jdkNode)
-    println("jdkNode.getChildNodes=" + jdkNode.getParentNode())
-    jdkNode.getChildNodes()
-
-    println("-" * 64)
 
     //    @tailrec
     def traceDom(jdkNode: org.w3c.dom.Node): Unit = {
