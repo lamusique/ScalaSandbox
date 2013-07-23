@@ -1,7 +1,7 @@
 /**
  *
  */
-package com.nekopiano.scala.scalasandbox
+package com.nekopiano.scala.scalasandbox.console
 
 import pl.project13.scala.rainbow.Rainbow._
 
