@@ -1,7 +1,7 @@
 /**
  *
  */
-package jp.sample.scala.os
+package com.nekopiano.scala.scalasandbox.os
 
 import java.io.File
 import scalax.io.Resource
