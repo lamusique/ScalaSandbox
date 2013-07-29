@@ -33,7 +33,7 @@ object XmlDOMReader {
     //    val xmlSource = Source.fromFile("responses/payloads/2.AbcProducts-EP-805.xml")
     //    val rootNode = toNode(xmlSource.mkString)
     //    val rootNode = XML.loadFile("responses/payloads/1.ApprovedList.xml")
-    val rootNode = XML.loadFile("responses/payloads/2.AbcProducts-EP-805.xml")
+    val rootNode = XML.loadFile("responses/payloads/raw/2.AbcProducts-EP-805A.xml")
     //    val rootNode = XML.loadFile("responses/payloads/2.AbcProducts-EP-905F.xml")
 
     println("-" * 64)
@@ -42,7 +42,7 @@ object XmlDOMReader {
 
     val dbFactory = DocumentBuilderFactory.newInstance;
     val dBuilder = dbFactory.newDocumentBuilder;
-    val domDoc = dBuilder.parse(new File("responses/payloads/2.AbcProducts-EP-805.xml"));
+    val domDoc = dBuilder.parse(new File("responses/payloads/raw/2.AbcProducts-EP-805A.xml"));
 
     val domNode = nodeExtras(rootNode)
     val jdkNode = domNode.toJdkNode(domDoc)
