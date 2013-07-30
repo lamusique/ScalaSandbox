@@ -5,8 +5,8 @@
  * @author La Musique
  *
  */
-import org.apache.pdfbox.pdmodel.PDDocument
-import org.apache.pdfbox.pdmodel.PDPage
+package com.nekopiano.scala.pdf
+
 import scala.collection.JavaConverters._
 import org.apache.pdfbox.util.PDFMergerUtility
 
@@ -26,7 +26,7 @@ object Merger {
 ,"IMSLP21056-PMLP48692-Rimsky_Osnovy_Ex001-025.PDF"
 ,"IMSLP21100-PMLP48692-Rimsky_Osnovy_Ex026-050.PDF"
 ,"IMSLP21101-PMLP48692-Rimsky_Osnovy_Ex051-075.PDF"
-,"IMSLP21102-PMLP48692-Rimsky_Osnovy_Ex076-100.PDF"     
+,"IMSLP21102-PMLP48692-Rimsky_Osnovy_Ex076-100.PDF"
   )
 
   def main(args: Array[String]): Unit = {
