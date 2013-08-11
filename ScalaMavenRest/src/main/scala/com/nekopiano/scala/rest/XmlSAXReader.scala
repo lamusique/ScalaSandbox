@@ -33,8 +33,9 @@ object XmlSAXReader {
     //    val xmlSource = Source.fromFile("responses/payloads/2.AbcProducts-EP-805.xml")
     //    val rootNode = toNode(xmlSource.mkString)
     //    val rootNode = XML.loadFile("responses/payloads/1.ApprovedList.xml")
-    val rootNode = XML.loadFile("responses/payloads/2.AbcProducts-EP-805.xml")
+    //    val rootNode = XML.loadFile("responses/payloads/2.AbcProducts-EP-805.xml")
     //    val rootNode = XML.loadFile("responses/payloads/2.AbcProducts-EP-905F.xml")
+    val rootNode = XML.loadFile("responses/payloads/raw/3.Accessories-KL50SCKR.xml")
 
     println("-" * 64)
 

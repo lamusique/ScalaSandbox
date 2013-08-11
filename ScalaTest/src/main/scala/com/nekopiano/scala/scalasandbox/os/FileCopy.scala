@@ -11,11 +11,11 @@ import scalax.io.Output
  * @author La Musique
  *
  */
-object DirectorySearch {
+object FileCopy {
 
   def main(args: Array[String]): Unit = {
     //http://stackoverflow.com/questions/2637643/how-do-i-list-all-files-in-a-subdirectory-in-scala
-    val files = getFileTree(new File("\\\\172.16.100.110\\share\\migdata\\support")).filter(_.isFile)
+    val files = getFileTree(new File("\\\\172.16.100.110\\share\\migdata\\media20130727")).filter(_.isFile)
 
     println("files.size=" + files.size)
 
