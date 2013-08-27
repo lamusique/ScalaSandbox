@@ -5,7 +5,7 @@
 	<version>0.0.1-SNAPSHOT</version>
 	<inceptionYear>2013</inceptionYear>
 	<properties>
-		<scala.version>2.10.1</scala.version>
+		<scala.version>2.10.2</scala.version>
 	</properties>
 
 	<repositories>
@@ -40,6 +40,16 @@
 			<artifactId>junit</artifactId>
 			<version>4.4</version>
 			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.scala-lang</groupId>
+			<artifactId>scala-compiler</artifactId>
+			<version>${scala.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.scala-lang</groupId>
+			<artifactId>scala-reflect</artifactId>
+			<version>${scala.version}</version>
 		</dependency>
 		<!-- <dependency> -->
 		<!-- <groupId>org.specs</groupId> -->
@@ -108,7 +118,12 @@
 			<artifactId>rainbow_2.10</artifactId> <!-- your scala version here -->
 			<version>0.1</version>
 		</dependency>
-
+		<!-- eval -->
+		<dependency>
+			<groupId>com.twitter</groupId>
+			<artifactId>util-eval_2.10</artifactId>
+			<version>6.3.8</version>
+		</dependency>
 	</dependencies>
 
 	<build>
