@@ -49,8 +49,21 @@ object XmlSAXReader {
       }
       node.child.foreach { e => { processNode(e) } }
     }
-
     processNode(rootNode)
 
+    //@tailrec
+    def processNodeWithParent(node: Node, parentNode: Node) {
+      if (node.isInstanceOf[Text]) {
+      } else {
+        val parent = Option(parentNode) match {
+          case Some(n) => n.label + "->"
+          case None => ""
+        }
+        println(parent + node.label)
+      }
+      node.child.foreach { e => { processNodeWithParent(e, node) } }
+    }
+
+    processNodeWithParent(rootNode, null)
   }
 }
