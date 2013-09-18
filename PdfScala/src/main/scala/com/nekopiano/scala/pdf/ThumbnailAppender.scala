@@ -17,9 +17,9 @@ import org.apache.pdfbox.pdmodel.PDDocumentCatalog
 object ThumbnailAppender {
 
   def main(args: Array[String]): Unit = {
-    val pagedrawer = new PageDrawer();
+    val pagedrawer = new PageDrawer()
 
-    val srcPdf = PDDocument.load("pdf\\inserted\\Dubois-Theory.pdf");
+    val srcPdf = PDDocument.load("pdf\\inserted\\Dubois-Theory.pdf")
     
     // just set default mode rather than appending thumbnails...
     srcPdf.getDocumentCatalog.setPageMode(PDDocumentCatalog.PAGE_MODE_USE_THUMBS)
