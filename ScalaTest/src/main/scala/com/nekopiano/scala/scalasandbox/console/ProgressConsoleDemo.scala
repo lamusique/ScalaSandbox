@@ -13,20 +13,29 @@ object ProgressConsoleDemo {
 
   def main(args: Array[String]): Unit = {
 
-    // for (double progressPercentage = 0.0; progressPercentage < 1.0; progressPercentage += 0.01) {
-    var progressPercentage = 0.0
-    while (progressPercentage < 1.0) {
-      updateProgress(progressPercentage);
-      Thread.sleep(20);
-      progressPercentage += 0.01
-    }
+    var seq = Seq(20, 30)
+
+    seq.par foreach runProgress _
 
   }
 
-  def updateProgress(progressPercentage: Double) {
-    val width = 50; // progress bar width in chars
+  def runProgress(sleep: Int) {
+    // for (double progressPercentage = 0.0; progressPercentage < 1.0; progressPercentage += 0.01) {
+    var progressPercentage = 0.0
+    while (progressPercentage < 1.0) {
+      updateProgress(progressPercentage)
+      //      Thread.sleep(20)
+      Thread.sleep(sleep)
+      progressPercentage += 0.01
+    }
+  }
 
-    System.out.print("\r[")
+  def updateProgress(progressPercentage: Double) {
+    val width = 50 // progress bar width in chars
+
+    print("\r")
+    print(Thread.currentThread)
+    print("[")
     //System.out.print("\u0008[")
     val progressValue = (progressPercentage * width).toInt
     var varI = 0;
