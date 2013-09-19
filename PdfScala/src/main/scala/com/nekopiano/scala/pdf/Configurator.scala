@@ -20,7 +20,7 @@ import org.apache.pdfbox.pdmodel.interactive.action.`type`.PDActionGoTo
  * @author La Musique
  *
  */
-object ThumbnailAppender {
+object Configurator {
 
   def main(args: Array[String]): Unit = {
     val pagedrawer = new PageDrawer()
@@ -38,8 +38,10 @@ object ThumbnailAppender {
     //    dest.setZoom(15)
     //    dest.setLeft(0)
     //    dest.setTop(500)
-    // Action activation needs this.
+    
+    // Action activation needs this page number setting.
     dest.setPageNumber(0)
+    
     val action = new PDActionGoTo()
     action.setDestination(dest)
 
