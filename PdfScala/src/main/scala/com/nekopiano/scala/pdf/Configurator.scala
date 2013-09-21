@@ -23,13 +23,14 @@ import org.apache.pdfbox.pdmodel.interactive.action.`type`.PDActionGoTo
 object Configurator {
 
   def main(args: Array[String]): Unit = {
-    val pagedrawer = new PageDrawer()
+    val pagedrawer = new PageDrawer
 
-    val srcPdf = PDDocument.load("pdf\\inserted\\Dubois-Theory.pdf")
+    val pdfName = "Dubois-Realization-inverted.pdf"
+    val srcPdf = PDDocument.load("pdf\\" + pdfName)
 
     // just set default mode rather than appending thumbnails...
     val dc = srcPdf.getDocumentCatalog
-        dc.setPageMode(PDDocumentCatalog.PAGE_MODE_USE_THUMBS)
+    dc.setPageMode(PDDocumentCatalog.PAGE_MODE_USE_THUMBS)
 
     val openAction = dc.getOpenAction
     println("openAction=" + openAction)
@@ -38,10 +39,10 @@ object Configurator {
     //    dest.setZoom(15)
     //    dest.setLeft(0)
     //    dest.setTop(500)
-    
+
     // Action activation needs this page number setting.
     dest.setPageNumber(0)
-    
+
     val action = new PDActionGoTo()
     action.setDestination(dest)
 
@@ -49,7 +50,7 @@ object Configurator {
     println("dc.getOpenAction=" + dc.getOpenAction)
     //    dc.setOpenAction(new PDPageFitRectangleDestination)
 
-    srcPdf.save("pdf\\thumbnailed\\" + "Dubois-Theory-Thumbnailed.pdf")
+    srcPdf.save("pdf\\thumbnailed\\" + pdfName)
     srcPdf.close
 
     println("Finished")
