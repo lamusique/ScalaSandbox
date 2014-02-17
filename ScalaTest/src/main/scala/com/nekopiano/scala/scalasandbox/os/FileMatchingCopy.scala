@@ -35,10 +35,6 @@ object FileMatchingCopy {
     dirs foreach { file =>
       {
         println(file.getName)
-        //        Resource.fromFile(file) copyDataTo Resource.fromFile("medias/" + file.getName)
-        // val storingFile = new File("medias/" + file.getName)
-        //        val output: Output = Resource.fromFile("medias/" + file.getName)
-        //        output.write(file)
       }
     }
 
@@ -65,7 +61,8 @@ object FileMatchingCopy {
           case 1 => {
             val matchedDir = matchedDirs.head
             println("result: file=" + file + ", target=" + matchedDir.getAbsolutePath)
-            //Resource.fromFile(file) copyDataTo Resource.fromFile(matchedDir.getAbsolutePath + '\\' + file.getName)
+            Resource.fromFile(file) copyDataTo Resource.fromFile(matchedDir.getAbsolutePath + '\\' + file.getName)
+            file.delete
           }
           case _ => {
             print("Unexpected duplicated directories: ")
