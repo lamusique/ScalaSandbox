@@ -11,6 +11,8 @@ import java.util.Scanner
  */
 object Camel2Snake extends App {
 
+  util.Properties.setProp("scala.time", "Camel2Snake")
+  
   // for database column name
 
   //  System.out.println("Please give number");
