@@ -17,6 +17,24 @@ object MaybeTest extends App {
   // matchOptionWithoutDefault(null)
   // Exception in thread "main" scala.MatchError: null
 
+  val n = null
+  val o = Option(n)
+  println("o=" + o)
+  // converted to None
+
+  val optionalNull = getOptionNull()
+  println("optionalNull=" + optionalNull)
+  // null still
+  val optionalNone = getOptionNone()
+  println("optionalNone=" + optionalNone)
+  // converted to None
+  //println("optionalNone.get=" + optionalNone.get)
+  //java.util.NoSuchElementException: None.get
+  println("optionalNone.getOrElse=" + optionalNone.getOrElse(null))
+
+  def getOptionNull(): Option[String] = if (false) Some("") else null
+  def getOptionNone(): Option[String] = if (false) Some("") else None
+
   def matchOption(value: Option[String]) = {
     println(s"value=$value")
     value match {
@@ -41,6 +59,6 @@ object MaybeTest extends App {
   // Thus
   // A sender object should send bare values, e.g. Int, String, because they may be null.
   // A receiver object should receive them and wraps them by Option, then processes.
-  
+
 }
 
