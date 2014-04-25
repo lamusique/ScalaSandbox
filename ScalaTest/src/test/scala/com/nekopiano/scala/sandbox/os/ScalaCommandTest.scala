@@ -25,7 +25,7 @@ object CommandTest {
 
     //val e = raw"java -jar C:\Repos\scala\MorleySbt\target\scala-2.10\MorleySbt-assembly-1.0.jar -e".!!
 
-    val result = "cmd /c dir".!!
+    val result = "cmd /c dir ..\\".!!
     println("result=" + result)
 
     val currentPathDos = "cmd /c chdir".!!
