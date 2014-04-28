@@ -9,7 +9,7 @@ import pl.project13.scala.rainbow.Rainbow._
  * @author La Musique
  *
  */
-object PromptTest {
+object ColoredConsoleTest {
 
   def main(args: Array[String]): Unit = {
     // coloring doesn't work on Windows Eclipse.
