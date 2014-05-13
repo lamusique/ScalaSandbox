@@ -6,7 +6,7 @@ scalaxbSettings
 
 sourceGenerators in Compile <+= scalaxb in Compile
 
-packageName in scalaxb in Compile := "com.nekopiano"
+packageName in scalaxb in Compile := "com.nekopiano.scala.scalaxb.y.items"
 
 
 
