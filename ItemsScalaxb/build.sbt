@@ -1,12 +1,12 @@
-import ScalaxbKeys._
+//import ScalaxbKeys._
 
 // other settings
 
-scalaxbSettings
+//scalaxbSettings
 
-sourceGenerators in Compile <+= scalaxb in Compile
+//sourceGenerators in Compile <+= scalaxb in Compile
 
-packageName in scalaxb in Compile := "com.nekopiano.scala.scalaxb.y.items"
+//packageName in scalaxb in Compile := "com.nekopiano.scala.scalaxb.y.items"
 
 
 
