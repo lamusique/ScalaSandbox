@@ -9,7 +9,7 @@ import scala.annotation.implicitNotFound
  * @author La Musique
  *
  */
-object ItemsTraverser extends App {
+object ItemsXMLTraverser extends App {
 
   util.Properties.setProp("scala.time", "")
 
