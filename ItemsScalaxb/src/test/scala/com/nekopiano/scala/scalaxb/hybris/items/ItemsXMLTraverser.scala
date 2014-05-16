@@ -13,16 +13,19 @@ object ItemsXMLTraverser extends App {
 
   util.Properties.setProp("scala.time", "")
 
-  val xml = scala.xml.XML.loadFile("xml/samplecore-items.xml")
+  //  val xml = scala.xml.XML.loadFile("xml/samplecore-items.xml")
+  //C:\Repos\apps\yootb\bin\platform\ext\core\resources\core-items.xml  
+  val xml = scala.xml.XML.loadFile("xml/core-items.xml")
+
   val items = scalaxb.fromXML[Items](xml)
 
   // ==== Relations
 
   val optionalRelationType = items.relations
-  //  println("optionalRelationTypes=" + optionalRelationTypes)
+  // println("optionalRelationTypes=" + optionalRelationTypes)
   // Some(RelationsType(List(RelationType(List(DataRecord, ...)), RelationType(...
 
-  val relationGraphVizString = optionalRelationType.get.relation map (relationType => {
+  val relationMaps = optionalRelationType.get.relation map (relationType => {
     println("relationType.code=" + relationType.code)
     val relationMap = relationType.mixed map (dataRecord => {
       //      println("dataRecord.key=" + dataRecord.key)
@@ -37,11 +40,8 @@ object ItemsXMLTraverser extends App {
       relationTuple
     }) toMap
 
-    // val relationGraphViz = relationMap("sourceElement.type") + " -> " + relationMap("targetElement.type")
     // normally one2many so should be reversed...
-    val relationGraphViz = relationMap("targetElement.type") + " -> " + relationMap("sourceElement.type") + " [style=dotted]"
-    // println("relationGraphViz=" + relationGraphViz)
-    relationGraphViz
+    relationMap("targetElement.type") -> relationMap("sourceElement.type")
   })
 
   // ==== Items
@@ -49,43 +49,80 @@ object ItemsXMLTraverser extends App {
   // println("optionalItemtype=" + optionalItemtype)
   // Some(ItemtypesType(List(ItemtypeType(List(DataRecord(),DataRecord(attributes,AttributeType(),...
 
-  val extendsGraphVizString = optionalItemtype.get.itemtype map (itemtypeType => {
-    println("itemtypeType.code=" + itemtypeType.code)
-    val extendsValue = itemtypeType.extendsValue match {
-      case Some(extendsV) => {
-        println("extends=" + extendsV)
-        itemtypeType.code + " -> " + extendsV + " [label=\"extends\"]"
-      }
-      case None => ""
-    }
+  //Seq[(String, String, Seq[Seq[(String, String, Boolean)]])]
+  val models = optionalItemtype.get.itemtype map (itemtypeType => {
+    val typeCode = itemtypeType.code
+    println("typeCode=" + typeCode)
 
-    itemtypeType.mixed foreach (dataRecord => {
+    val extendsValue = itemtypeType.extendsValue match {
+      case Some(extendsV) =>
+        if (extendsV.trim.isEmpty) None else Some(extendsV)
+      case None => None
+    }
+    println("extendsValue=" + extendsValue)
+
+    //Seq[Option[Seq[(String, String, Boolean)]]]
+    val optionalAttributes = itemtypeType.mixed map (dataRecord => {
       dataRecord.key match {
         case Some("attributes") => {
           val attributesType = dataRecord.value.asInstanceOf[AttributesType]
           val attributes = attributesType.attribute
-          attributes foreach (attribute => {
-            println("attribute.qualifier=" + attribute.qualifier)
+          val optionalAttirubtes = attributes map (attribute => {
+            // println("attribute.qualifier=" + attribute.qualifier)
             // val unique = attribute.modifiers.getOrElse(false).unique.getOrElse(false)
             attribute.modifiers match {
-              case Some(ModifiersType(_, _, _, _, _, _, _, _, Some(true), _, _)) => println("this is unique.")
-              case Some(others) => {}
-              case None => {}
+              case Some(ModifiersType(_, _, _, _, _, _, _, _, Some(true), _, _)) => {
+                //println("this is unique.")
+                (attribute.qualifier, attribute.typeValue, true)
+              }
+              case Some(others) => (attribute.qualifier, attribute.typeValue, false)
+              case None => (attribute.qualifier, attribute.typeValue, false)
             }
           })
+          Option(optionalAttirubtes)
         }
-        case Some(something) => println("something=" + something)
-        case None => println("None...")
+        case Some(something) => {
+          println("something=" + something)
+          None
+        }
+        case None => {
+          println("None...")
+          None
+        }
       }
     })
+    //    val attributes = optionalAttributes.filterNot(_ == None)(0).map(opt => { opt.get })
+    //val attributes = optionalAttributes.filterNot(_ == None)(0).get
+    //val attributes = optionalAttributes.filterNot(_ == None).map(opt => { opt.get })
+    val attributes = optionalAttributes.collectFirst{ case Some(v) => v }.getOrElse(Seq.empty[(String, String, Boolean)])
+    println("attributes=" + attributes)
+    (typeCode, extendsValue, attributes)
+  })
+  
+  // ======== convert to GraphViz dot
 
-    extendsValue
+  val relationGraphVizString = relationMaps.map(relation => { relation._1 + " -> " + relation._2 + " [style=dotted]" }).mkString("\n")
+  val modelGraphVizString = models.map(model => {
+    val attributeString = model._3.map(attribute => {
+      val unique = if (attribute._3) " [unique]" else ""
+      val typeName = attribute._2.split('.').last
+      "- " + attribute._1 + " : " + typeName + unique
+    }).mkString("\\l") + "\\l"
+
+    val extendsLine = model._2 match {
+      case Some(extendsV) =>
+        "\n" + model._1 + " -> " + extendsV + " [label=\"extends\"]"
+      case None => ""
+    }
+
+    model._1 + " [label=\"{" + model._1 + "|" + attributeString + "}\"]" +
+      extendsLine
   })
 
   println("// " + "=" * 50)
-  println("// relationGraphViz")
-  println(relationGraphVizString.mkString("\n"))
+  println("// relationGraphVizString")
+  println(relationGraphVizString)
   println("// " + "=" * 50)
-  println("// extendsGraphViz")  
-  println(extendsGraphVizString.filterNot(_.isEmpty).mkString("\n"))
+  println("// modelGraphVizString")
+  println(modelGraphVizString.mkString("\n"))
 }
