@@ -37,16 +37,16 @@ object ItemsTraverser extends App {
       relationTuple
     }) toMap
 
-    //    val relationGraphViz = relationMap("sourceElement.type") + " -> " + relationMap("targetElement.type")
+    // val relationGraphViz = relationMap("sourceElement.type") + " -> " + relationMap("targetElement.type")
     // normally one2many so should be reversed...
     val relationGraphViz = relationMap("targetElement.type") + " -> " + relationMap("sourceElement.type") + " [style=dotted]"
-    println("relationGraphViz=" + relationGraphViz)
+    // println("relationGraphViz=" + relationGraphViz)
     relationGraphViz
   })
 
   // ==== Items
   val optionalItemtype = items.itemtypes
-  //println("optionalItemtype=" + optionalItemtype)
+  // println("optionalItemtype=" + optionalItemtype)
   // Some(ItemtypesType(List(ItemtypeType(List(DataRecord(),DataRecord(attributes,AttributeType(),...
 
   val extendsGraphVizString = optionalItemtype.get.itemtype map (itemtypeType => {
