@@ -13,9 +13,9 @@ object ItemsXMLTraverser extends App {
 
   util.Properties.setProp("scala.time", "")
 
-  //  val xml = scala.xml.XML.loadFile("xml/samplecore-items.xml")
-  //C:\Repos\apps\yootb\bin\platform\ext\core\resources\core-items.xml  
-  val xml = scala.xml.XML.loadFile("xml/core-items.xml")
+  val xml = scala.xml.XML.loadFile("xml/samplecore-items.xml")
+  // from C:\Repos\apps\yootb\bin\platform\ext\core\resources\core-items.xml  
+  // val xml = scala.xml.XML.loadFile("xml/core-items.xml")
 
   val items = scalaxb.fromXML[Items](xml)
 
@@ -33,15 +33,21 @@ object ItemsXMLTraverser extends App {
 
       val relationTuple = dataRecord.key match {
         case Some("sourceElement") =>
-          "sourceElement.type" -> dataRecord.value.asInstanceOf[RelationElementType].typeValue
-        case Some("targetElement") => "targetElement.type" -> dataRecord.value.asInstanceOf[RelationElementType].typeValue
-        case None => "" -> ""
+          "sourceElement" -> {
+            val relation = dataRecord.value.asInstanceOf[RelationElementType]
+            relation.typeValue -> relation.qualifier.get
+          }
+        case Some("targetElement") => "targetElement" -> {
+          val relation = dataRecord.value.asInstanceOf[RelationElementType]
+          relation.typeValue -> relation.qualifier.get
+        }
+        case None => "" -> ("" -> "")
       }
       relationTuple
     }) toMap
 
     // normally one2many so should be reversed...
-    relationMap("targetElement.type") -> relationMap("sourceElement.type")
+    relationMap("targetElement") -> relationMap("sourceElement")
   })
 
   // ==== Items
@@ -94,14 +100,14 @@ object ItemsXMLTraverser extends App {
     //    val attributes = optionalAttributes.filterNot(_ == None)(0).map(opt => { opt.get })
     //val attributes = optionalAttributes.filterNot(_ == None)(0).get
     //val attributes = optionalAttributes.filterNot(_ == None).map(opt => { opt.get })
-    val attributes = optionalAttributes.collectFirst{ case Some(v) => v }.getOrElse(Seq.empty[(String, String, Boolean)])
+    val attributes = optionalAttributes.collectFirst { case Some(v) => v }.getOrElse(Seq.empty[(String, String, Boolean)])
     println("attributes=" + attributes)
     (typeCode, extendsValue, attributes)
   })
-  
+
   // ======== convert to GraphViz dot
 
-  val relationGraphVizString = relationMaps.map(relation => { relation._1 + " -> " + relation._2 + " [style=dotted]" }).mkString("\n")
+  val relationGraphVizString = relationMaps.map(relation => { relation._1._1 + " -> " + relation._2._1 + " [style=dotted taillabel=" + relation._2._2 + " headlabel=" + relation._1._2 + "]" }).mkString("\n")
   val modelGraphVizString = models.map(model => {
     val attributeString = model._3.map(attribute => {
       val unique = if (attribute._3) " [unique]" else ""
