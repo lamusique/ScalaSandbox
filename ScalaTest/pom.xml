@@ -5,7 +5,7 @@
 	<version>0.0.1-SNAPSHOT</version>
 	<inceptionYear>2013</inceptionYear>
 	<properties>
-		<scala.version>2.10.2</scala.version>
+		<scala.version>2.10.4</scala.version>
 	</properties>
 
 	<repositories>
@@ -113,11 +113,18 @@
 			<version>0.4.2</version>
 		</dependency>
 		<!-- coloring console -->
+		<!-- This doesn't work on Windows command prompt. -->
 		<dependency>
 			<groupId>pl.project13.scala</groupId>
 			<artifactId>rainbow_2.10</artifactId> <!-- your scala version here -->
 			<version>0.1</version>
 		</dependency>
+		<!-- This works. -->
+        <dependency>
+	        <groupId>org.fusesource.jansi</groupId>
+	        <artifactId>jansi</artifactId>
+	        <version>1.11</version>
+	    </dependency>
 		<!-- eval -->
 		<dependency>
 			<groupId>com.twitter</groupId>
