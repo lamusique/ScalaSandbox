@@ -32,6 +32,8 @@ object TextFileWriter {
     } finally {
       pw.close()
     }
+
+    println("finished.")
   }
 
 }
