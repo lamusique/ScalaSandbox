@@ -15,7 +15,7 @@ scalaVersion := "2.11.1"
 
 libraryDependencies ++= List(
   "org.scala-lang" % "scala-reflect" % "2.10.4",
-  "com.typesafe.slick" %% "slick" % "2.0.1",
+//  "com.typesafe.slick" %% "slick" % "2.0.1",
 //  "com.typesafe.slick" %% "slick-extensions" % "2.0.1",
   "com.typesafe" % "config" % "1.2.0",
 //  "org.slf4j" % "slf4j-nop" % "1.6.4",
@@ -26,15 +26,13 @@ libraryDependencies ++= List(
   "org.apache.commons" % "commons-dbcp2" % "2.0",
 //  "com.h2database" % "h2" % "1.3.170",
 //  "org.xerial" % "sqlite-jdbc" % "3.7.2"
-    "com.github.nscala-time" %% "nscala-time" % "0.8.0",
+    "com.github.nscala-time" %% "nscala-time" % "1.2.0",
     "joda-time" % "joda-time" % "2.3",
-    "org.joda" % "joda-convert" % "1.5",
+    "org.joda" % "joda-convert" % "1.6",
     "commons-cli" % "commons-cli" % "1.2",
-    "com.github.scala-incubator.io" %% "scala-io-core" % "0.4.2",
-    "com.github.scala-incubator.io" %% "scala-io-file" % "0.4.2",
-    "pl.project13.scala" %% "rainbow" % "0.1",
+    "pl.project13.scala" %% "rainbow" % "0.2",
     "org.fusesource.jansi" % "jansi" % "1.11",
-    "org.specs2" %% "specs2" % "2.3.10" % "test"
+    "org.specs2" %% "specs2" % "2.3.12" % "test"
 )
 
 
