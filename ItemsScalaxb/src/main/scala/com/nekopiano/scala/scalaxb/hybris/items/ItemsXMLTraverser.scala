@@ -76,14 +76,24 @@ object ItemsXMLTraverser extends App {
           val optionalAttirubtes = attributes map (attribute => {
             // println("attribute.qualifier=" + attribute.qualifier)
             // val unique = attribute.modifiers.getOrElse(false).unique.getOrElse(false)
-            attribute.modifiers match {
-              case Some(ModifiersType(_, _, _, _, _, _, _, _, Some(true), _, _)) => {
-                //println("this is unique.")
-                (attribute.qualifier, attribute.typeValue, true)
-              }
-              case Some(others) => (attribute.qualifier, attribute.typeValue, false)
-              case None => (attribute.qualifier, attribute.typeValue, false)
+
+            println("attribute.modifiers=" + attribute.modifiers)
+            val uniqueLabel = attribute.modifiers match {
+              case Some(ModifiersType(_, _, _, _, _, _, _, _, Some(true), _, _)) => Option("unique")
+              case Some(ModifiersType(_, _, _, _, _, _, _, _, Some(false), _, _)) => None
+              case Some(ModifiersType(_, _, _, _, _, _, _, _, None, _, _)) => None
+              case None => None
             }
+            val optionalLabel = attribute.modifiers match {
+              case Some(ModifiersType(_, _, _, Some(false), _, _, _, _, _, _, _)) => None
+              case Some(ModifiersType(_, _, _, Some(true), _, _, _, _, _, _, _)) => Option("nullable")
+              // Default is 'true' for optional.
+              case Some(ModifiersType(_, _, _, None, _, _, _, _, _, _, _)) => Option("nullable")
+              case None => Option("nullable")
+            }
+            val labels = Seq(uniqueLabel, optionalLabel)
+
+            (attribute.qualifier, attribute.typeValue, labels)
           })
           Option(optionalAttirubtes)
         }
@@ -100,19 +110,25 @@ object ItemsXMLTraverser extends App {
     //    val attributes = optionalAttributes.filterNot(_ == None)(0).map(opt => { opt.get })
     //val attributes = optionalAttributes.filterNot(_ == None)(0).get
     //val attributes = optionalAttributes.filterNot(_ == None).map(opt => { opt.get })
-    val attributes = optionalAttributes.collectFirst { case Some(v) => v }.getOrElse(Seq.empty[(String, String, Boolean)])
+    val attributes = optionalAttributes.collectFirst { case Some(v) => v }.getOrElse(Seq.empty[(String, String, Seq[Option[String]])])
     println("attributes=" + attributes)
     (typeCode, extendsValue, attributes)
   })
+
+  // Ignored itemtype in typegroup, e.g. OrganizationOrderStatistics
 
   // ======== convert to GraphViz dot
 
   val relationGraphVizString = relationMaps.map(relation => { relation._1._1 + " -> " + relation._2._1 + " [style=dotted taillabel=" + relation._2._2 + " headlabel=" + relation._1._2 + "]" }).mkString("\n")
   val modelGraphVizString = models.map(model => {
     val attributeString = model._3.map(attribute => {
-      val unique = if (attribute._3) " [unique]" else ""
+
+      val modifiersLabel = if (attribute._3.exists(_.isDefined)) {
+        "[" + attribute._3.collect { case Some(modifier) => modifier }.mkString(", ") + "]"
+      } else ""
+
       val typeName = attribute._2.split('.').last
-      "- " + attribute._1 + " : " + typeName + unique
+      "- " + attribute._1 + " : " + typeName + " " + modifiersLabel
     }).mkString("\\l") + "\\l"
 
     val extendsLine = model._2 match {
