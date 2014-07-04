@@ -4,6 +4,7 @@
 package com.nekopiano.scala.scalaxb.y.items
 
 import scala.annotation.implicitNotFound
+import scala.collection.mutable.HashMap
 
 /**
  * @author La Musique
@@ -125,7 +126,20 @@ object ItemsXMLTraverser extends App {
   // ======== convert to GraphViz dot
 
   val relationGraphVizString = relationMaps.map(relation => { relation._1._1 + " -> " + relation._2._1 + " [style=dotted taillabel=" + relation._2._2 + " headlabel=" + relation._1._2 + "]" }).mkString("\n")
-  val modelGraphVizString = models.map(model => {
+
+  // merge the same models
+  // group by code
+  val mergedModels = models.groupBy(_._1).map {
+    case (code, duplicatableModel) => {
+      if (duplicatableModel.size == 1) duplicatableModel(0)
+      else {
+        val attributes = duplicatableModel.map(_._3).flatten
+        (code, duplicatableModel(0)._2, attributes)
+      }
+    }
+  }
+
+  val modelGraphVizString = mergedModels.map(model => {
     val attributeString = model._3.map(attribute => {
 
       val modifiersLabel = if (attribute._3.exists(_.isDefined)) {
