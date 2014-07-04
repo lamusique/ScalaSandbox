@@ -13,9 +13,12 @@ object ItemsXMLTraverser extends App {
 
   util.Properties.setProp("scala.time", "")
 
-  val xml = scala.xml.XML.loadFile("xml/samplecore-items.xml")
+  // val xml = scala.xml.XML.loadFile("xml/samplecore-items.xml")
+
   // from C:\Repos\apps\yootb\bin\platform\ext\core\resources\core-items.xml  
   // val xml = scala.xml.XML.loadFile("xml/core-items.xml")
+
+  val xml = scala.xml.XML.loadFile("xml/catalog-items.xml")
 
   val items = scalaxb.fromXML[Items](xml)
 
@@ -41,6 +44,8 @@ object ItemsXMLTraverser extends App {
           val relation = dataRecord.value.asInstanceOf[RelationElementType]
           relation.typeValue -> relation.qualifier.get
         }
+        // ignore
+        case Some("deployment") => "" -> ("" -> "")
         case None => "" -> ("" -> "")
       }
       relationTuple
