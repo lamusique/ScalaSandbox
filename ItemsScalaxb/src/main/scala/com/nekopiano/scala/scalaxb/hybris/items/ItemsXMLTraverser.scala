@@ -85,11 +85,11 @@ object ItemsXMLTraverser extends App {
               case None => None
             }
             val optionalLabel = attribute.modifiers match {
-              case Some(ModifiersType(_, _, _, Some(false), _, _, _, _, _, _, _)) => None
-              case Some(ModifiersType(_, _, _, Some(true), _, _, _, _, _, _, _)) => Option("nullable")
+              case Some(ModifiersType(_, _, _, Some(false), _, _, _, _, _, _, _)) => Option("required")
+              case Some(ModifiersType(_, _, _, Some(true), _, _, _, _, _, _, _)) => None
               // Default is 'true' for optional.
-              case Some(ModifiersType(_, _, _, None, _, _, _, _, _, _, _)) => Option("nullable")
-              case None => Option("nullable")
+              case Some(ModifiersType(_, _, _, None, _, _, _, _, _, _, _)) => None
+              case None => None
             }
             val labels = Seq(uniqueLabel, optionalLabel)
 
