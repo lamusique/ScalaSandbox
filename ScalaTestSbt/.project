@@ -1,5 +1,5 @@
 <projectDescription>
-  <name>sbt-skeleton</name>
+  <name>sandbox211</name>
   <buildSpec>
     <buildCommand>
       <name>org.scala-ide.sdt.core.scalabuilder</name>
