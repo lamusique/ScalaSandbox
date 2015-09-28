@@ -1,17 +1,11 @@
-import AssemblyKeys._
-//    import sbt._
-//    import Keys._
-//    import sbt.Package.ManifestAttributes
-
-assemblySettings
 
 organization := "com.nekopiano.scala"
 
-name := "sandbox211"
+name := "scala-sandbox"
 
 version := "1.0"
 
-scalaVersion := "2.11.1"
+scalaVersion := "2.11.7"
 
 libraryDependencies ++= List(
 /*
@@ -39,9 +33,10 @@ resolvers ++= Seq("snapshots", "releases").map(Resolver.sonatypeRepo)
 unmanagedBase := baseDirectory.value / "lib"
 
 
-EclipseKeys.createSrc := EclipseCreateSrc.Default + EclipseCreateSrc.Resource
-
-EclipseKeys.withSource := true
+// Not for IntelliJ but for Eclipse
+//EclipseKeys.createSrc := EclipseCreateSrc.Default + EclipseCreateSrc.Resource
+//
+//EclipseKeys.withSource := true
 
 //packageOptions := Seq(ManifestAttributes(
 //                      ("Implementation-Vendor", "vendor"),
