@@ -1,7 +1,8 @@
 package example
-import scala.scalajs.js.annotation.JSExport
+import scala.scalajs.js.annotation.{JSExport, JSExportTopLevel}
 import org.scalajs.dom
 import org.scalajs.dom.html
+
 import scala.util.Random
 
 case class Point(x: Int, y: Int){
@@ -9,7 +10,11 @@ case class Point(x: Int, y: Int){
   def /(d: Int) = Point(x / d, y / d)
 }
 
-@JSExport
+//@JSExport
+//Warning:(12, 2) @JSExport on objects is deprecated and will be removed in 1.0.0. Use @JSExportTopLevel instead. Note that it exports the object itself (rather than a 0-arg function returning the object), so the calling JavaScript code must be adapted.
+//(you can suppress this warning in 0.6.x by passing the option `-P:scalajs:suppressExportDeprecations` to scalac)
+//@JSExport
+@JSExportTopLevel("ScalaJSExample")
 object ScalaJSExample {
   @JSExport
   def main(canvas: html.Canvas): Unit = {
