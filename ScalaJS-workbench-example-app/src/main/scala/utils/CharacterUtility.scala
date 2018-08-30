@@ -4,6 +4,7 @@ import scala.annotation.tailrec
 
 object CharacterUtility {
 
+  import LoggingUtility._
 
   def normalise(text: String) = {
     full2half(text)
@@ -42,19 +43,17 @@ object CharacterUtility {
         case (x :: xs) => {
 
           val taken = list.take(size)
-          val next = if (taken == input) {
+          val next = if (size > 0 && taken == input) {
             val nextList = list.drop(size)
             val appendingList = evaledInput.reverse
-            //detectMatchedInternal(nextList, appendingList ::: acc)
             (nextList, appendingList ::: acc)
           } else {
             val nextList = list.tail
             val appendingHead = list.head
-            //detectMatchedInternal(nextList, (appendingHead, false) :: acc)
             (nextList, (appendingHead, false) :: acc)
           }
-//          val appendingHead =
-//          detectMatchedInternal(xs, appendingHead :: acc)
+
+          //println(inspect(next))
           detectMatchedInternal(next._1, next._2)
         }
         case Nil => acc.reverse

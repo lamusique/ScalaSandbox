@@ -27,8 +27,17 @@ object CharacterUtilityTest extends TestSuite {
           }}
     }
     'match - {
-      val result = CharacterUtility.detectMatched("Ab", "$dAbcAbdab")
-      println(inspect(result))
+      {
+        val result = CharacterUtility.detectMatched("Ab", "$dAbcAbdab")
+        println(inspect(result))
+      }
+
+      {
+        val text = "１２３Ａｐｐｌｅ会社"
+        val result = CharacterUtility.detectMatched("", text)
+        println(inspect(result))
+      }
+
     }
   }
 }

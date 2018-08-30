@@ -23,8 +23,8 @@ object ListUtility {
     def packInner(l: List[(A, B)], cur: List[(A, B)], acc: List[(B, List[(A)])]): List[(B, List[(A)])] = l match {
       case e :: tail if cur.isEmpty => packInner(tail, List(e), acc)
       case e :: tail if e._2 == cur.head._2 => packInner(tail, e :: cur, acc)
-      case e :: tail if e._2 != cur.head._2 => packInner(tail, List(e), (cur.head._2, cur.map(_._1)) :: acc)
-      case Nil => (cur.head._2, cur.map(_._1)) :: acc
+      case e :: tail if e._2 != cur.head._2 => packInner(tail, List(e), (cur.head._2, cur.map(_._1).reverse) :: acc)
+      case Nil => (cur.head._2, cur.map(_._1).reverse) :: acc
     }
 
     packInner(list, List.empty, List.empty).reverse

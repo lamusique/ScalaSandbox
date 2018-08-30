@@ -9,7 +9,7 @@ object ListUtilityTest extends TestSuite {
   val tests = Tests{
     'match - {
 
-      val arg = List(('a, false), ('a, true), ('a, true), ('a, false), ('b, false), ('c, true), ('c, false), ('a, true), ('a, true), ('d, false), ('e, true), ('e, true), ('e, false), ('e, true))
+      val arg = List(('a, false), ('b, true), ('c, true), ('d, false), ('e, false), ('f, true), ('g, false), ('h, true), ('i, true), ('j, false), ('k, true), ('l, true), ('m, false), ('n, true))
       val result = ListUtility.packLabeled(arg)
       println(inspect(result))
     }
