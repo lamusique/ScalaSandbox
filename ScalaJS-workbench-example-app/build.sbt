@@ -11,7 +11,10 @@ libraryDependencies ++= Seq(
   "org.scala-js" %%% "scalajs-dom" % "0.9.6",
   "com.lihaoyi" %%% "scalatags" % "0.6.7",
   "com.lihaoyi" %%% "sourcecode" % "0.1.4",
-  "org.scala-lang.modules" %%% "scala-parser-combinators" % "1.1.1"
+  "org.scala-lang.modules" %%% "scala-parser-combinators" % "1.1.1",
+  "com.github.japgolly.scalacss" %%% "ext-scalatags" % "0.5.5",
+  "com.github.japgolly.scalacss" %%% "core" % "0.5.5"
+
 )
 
 //libraryDependencies += "com.lihaoyi" %% "sourcecode" % "0.1.4"
