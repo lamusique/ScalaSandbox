@@ -1,4 +1,4 @@
-package com.nekopiano.scala.di.compiletime.components
+package com.nekopiano.scala.di.compiletime.cakepattern.components
 
 import com.softwaremill.macwire._
 
