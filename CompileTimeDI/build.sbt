@@ -16,4 +16,8 @@ libraryDependencies += "com.softwaremill.macwire" %% "macrosakka" % "2.3.1" % "p
 libraryDependencies += "com.softwaremill.macwire" %% "util" % "2.3.1"
 libraryDependencies += "com.softwaremill.macwire" %% "proxy" % "2.3.1"
 
+scalacOptions += "-Ypartial-unification"
+libraryDependencies += "org.typelevel" %% "cats-core" % "1.4.0"
+libraryDependencies += "org.typelevel" %% "cats-mtl-core" % "0.4.0"
+libraryDependencies += "org.typelevel" %% "cats-effect" % "1.0.0"
 
