@@ -12,3 +12,6 @@ lazy val root = (project in file("."))
     libraryDependencies += scalaTest % Test
   )
 
+libraryDependencies += "org.eclipse.jgit" % "org.eclipse.jgit" % "5.2.1.201812262042-r"
+libraryDependencies += "com.github.pathikrit" %% "better-files" % "3.7.1"
+
