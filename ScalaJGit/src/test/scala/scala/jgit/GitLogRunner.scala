@@ -18,8 +18,8 @@ import collection.JavaConverters._
 
 object GitLogRunner extends App {
 
-    // TODO change the path
-    val git = Git.open(File("[git repo path]/.git").toJava)
+    val dotGitDir = pwd / "../.git"
+    val git = Git.open(dotGitDir.toJava)
     val repo = git.getRepository
 
     val branchRefs = git.branchList.setContains("HEAD").setListMode(ListBranchCommand.ListMode.ALL).call.asScala
@@ -32,10 +32,10 @@ object GitLogRunner extends App {
     df.setDiffComparator(RawTextComparator.DEFAULT)
     df.setDetectRenames(true)
 
-
     val reader = repo.newObjectReader
 
-    log.iterator.asScala.take(10).drop(9).foreach(commit => {
+    val logs = log.iterator.asScala.toList
+    logs.slice(9, 10).foreach(commit => {
         println("-" * 64)
         println(commit)
         println(commit.getAuthorIdent.getWhen)
@@ -45,9 +45,14 @@ object GitLogRunner extends App {
         println(commit.getAuthorIdent)
         println(commit.getShortMessage)
 
-        println("==== revs ====")
+        println("==== branch revs ⬇︎ ====")
         val revs = git.nameRev.add(commit.getId).call.asScala
         revs foreach println
+        println("---- all branches with this commit ----")
+//        val refs = git.branchList.setContains("HEAD").setListMode(ListBranchCommand.ListMode.ALL).call.asScala
+        val refs = git.branchList.setContains(commit.name).setListMode(ListBranchCommand.ListMode.ALL).call.asScala
+        refs foreach println
+        println("==== branch revs ⬆︎ ====")
 
         val curParser = new CanonicalTreeParser
         curParser.reset(reader, commit.getTree)
