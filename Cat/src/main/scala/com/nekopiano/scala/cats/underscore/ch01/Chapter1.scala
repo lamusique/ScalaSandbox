@@ -41,20 +41,20 @@ object Chapter1 extends App {
     // 1.5.5 Exercise: Equality, Liberty, and Felinity
     final case class Cat(name: String, age: Int, color: String)
 
-    val cat1 = Cat("Garfield",   38, "orange and black")
+    val cat1 = Cat("Garfield", 38, "orange and black")
     val cat2 = Cat("Heathcliff", 32, "orange and black")
     val optionCat1 = Option(cat1)
     val optionCat2 = Option.empty[Cat]
 
     import cats.Eq
     import cats.syntax.eq._ // for ===
-    import cats.instances.int._    // for Eq
+    import cats.instances.int._ // for Eq
     import cats.instances.string._ // for Eq
 
     implicit val catEqual: Eq[Cat] =
       Eq.instance[Cat] { (cat1, cat2) =>
-        (cat1.name  === cat2.name ) &&
-          (cat1.age   === cat2.age  ) &&
+        (cat1.name === cat2.name) &&
+          (cat1.age === cat2.age) &&
           (cat1.color === cat2.color)
       }
 
@@ -76,6 +76,19 @@ object Chapter1 extends App {
     println(inspect(compMaybe2))
 
   }
+  {
+    // 1.6.1 Variance
+    trait Covariance[+A]
+    // cast to a super type
+    trait Contravariance[-A]
+    // cast to a sub type
+    trait Invariance[A]
+    // impossible to cast
+
+    // Cats generally prefers to use invariant type classes.
+  }
+
+
 
 
 }
