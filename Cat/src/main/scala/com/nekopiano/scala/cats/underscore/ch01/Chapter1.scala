@@ -4,6 +4,10 @@ import utils.CodeUtility._
 
 object Chapter1 extends App {
 
+  // show
+  // eq
+  // type safe with invariance
+
   {
     // 1.4.3 Importing Interface Syntax
     import cats.instances.all._

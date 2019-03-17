@@ -4,6 +4,8 @@ import utils.CodeUtility._
 
 object Chapter2 extends App {
 
+  // Semigroup/Monoid
+
   {
     // 2.5.1 The Monoid Type Class
 
@@ -56,7 +58,7 @@ object Chapter2 extends App {
     // res6: (String, Int) = (helloworld,444)
     println(inspect(combined2))
 
-    
+
     def addAll[A](values: List[A])
                  (implicit monoid: Monoid[A]): A =
       values.foldRight(monoid.empty)(_ |+| _)
@@ -70,6 +72,13 @@ object Chapter2 extends App {
     val added2 = addAll(List(None, Some(1), Some(2)))
     // res8: Option[Int] = Some(3)
     println(inspect(added2))
+
+
+    // TODO ? We’ll see how to get around this in a moment.
+    // Error:(76, 24) could not find implicit value for parameter monoid: cats.Monoid[Some[Int]]
+//    val added3 = addAll(List(Some(0), Some(1), Some(2)))
+//    println(inspect(added3))
+
   }
 
 }
