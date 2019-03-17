@@ -7,7 +7,7 @@
         <parameter value="-Ypartial-unification" />
       </parameters>
       <plugins>
-        <plugin path="$USER_HOME$/.ivy2/cache/org.scalameta/paradise_2.12.6/jars/paradise_2.12.6-3.0.0-M11.jar" />
+        <plugin path="$USER_HOME$/.ivy2/cache/org.scalameta/paradise_2.12.8/jars/paradise_2.12.8-3.0.0-M11.jar" />
       </plugins>
     </profile>
   </component>
