@@ -225,6 +225,21 @@ object Chapter3 extends App {
 
   }
   {
+    // 3.7.1 Contravariant in Cats
+    import cats.Contravariant
+    import cats.Show
+    import cats.instances.string._
+
+    val showString = Show[String]
+
+    val showSymbol = Contravariant[Show].
+      contramap(showString)((sym: Symbol) => s"'${sym.name}")
+
+    val res1 = showSymbol.show('dave)
+    // res2: String = 'dave
+    println(inspect(res1))
+  }
+  {
     // 3.7.2 Invariant in Cats
     import cats.Monoid
     import cats.instances.string._ // for Monoid

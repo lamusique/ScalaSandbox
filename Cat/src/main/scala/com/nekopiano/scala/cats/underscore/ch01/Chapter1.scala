@@ -90,6 +90,9 @@ object Chapter1 extends App {
     // impossible to cast
 
     // Cats generally prefers to use invariant type classes.
+
+    //Warning:(83, 3) a pure expression does nothing in statement position; multiline expressions may require enclosing parentheses
+    //{
   }
 
 
