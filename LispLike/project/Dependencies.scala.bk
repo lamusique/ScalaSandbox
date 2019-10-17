@@ -1,0 +1,9 @@
+import sbt._
+
+object Dependencies {
+//  lazy val scalaTestJar = "org.scalatest" %% "scalatest" % "3.0.5"
+//  //lazy val clojureJar = "org.clojure" % "clojure" % "1.9.0"
+//  lazy val clojureJar = "org.clojure" % "clojure" % "1.5.1"
+
+}
+
