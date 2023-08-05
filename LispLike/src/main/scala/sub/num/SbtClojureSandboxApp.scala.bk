@@ -1,0 +1,7 @@
+import sub.num
+
+object SbtClojureSandboxApp extends App {
+  println("Hello world from Scala!")
+  hello.printhello()
+  println("count: "+Integer.toString(num.add(1, 2)))
+}

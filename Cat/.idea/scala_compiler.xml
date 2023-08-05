@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ScalaCompilerConfiguration">
+    <profile name="sbt 1" modules="cat_3618" />
+    <profile name="sbt 2" modules="Cat-Sandbox">
+      <parameters>
+        <parameter value="-Ypartial-unification" />
+      </parameters>
+      <plugins>
+        <plugin path="$USER_HOME$/.ivy2/cache/org.scalameta/paradise_2.12.8/jars/paradise_2.12.8-3.0.0-M11.jar" />
+      </plugins>
+    </profile>
+  </component>
+</project>
